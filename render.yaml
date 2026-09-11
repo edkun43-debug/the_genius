@@ -1,0 +1,9 @@
+services:
+  - type: web
+    name: the-genius-chat
+    runtime: docker
+    plan: free
+    healthCheckPath: /api/status
+    envVars:
+      - key: GROQ_API_KEY
+        sync: false

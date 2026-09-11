@@ -1,0 +1,18 @@
+{
+  "name": "THE GENIUS",
+  "short_name": "THE GENIUS",
+  "id": "/",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#090909",
+  "theme_color": "#090909",
+  "description": "THE GENIUS: a bilingual pixel-art AI companion with a living expression portrait.",
+  "icons": [
+    {
+      "src": "/assets/mood-neutral.png",
+      "type": "image/png",
+      "sizes": "any",
+      "purpose": "any"
+    }
+  ]
+}

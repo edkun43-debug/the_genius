@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="theme-color" content="#090909" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <title>THE GENIUS</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&family=Noto+Sans+Arabic:wght@400;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/style.css" />
+  </head>
+  <body class="booting">
+    <div class="scanlines" aria-hidden="true"></div>
+    <div class="boot-screen" id="boot-screen" aria-hidden="true">
+      <p>THE GENIUS</p>
+      <div class="boot-bar"><i></i></div>
+      <small>loading expression core...</small>
+    </div>
+
+    <main class="app-shell" aria-label="THE GENIUS chat">
+      <header class="topbar">
+        <div class="brand" aria-label="THE GENIUS">
+          <span class="brand-mark" aria-hidden="true"></span>
+          <span>THE GENIUS</span>
+        </div>
+        <div class="top-actions">
+          <button class="pixel-button icon-button" id="settings-open" type="button" aria-label="Open settings">
+            <span aria-hidden="true">•••</span>
+          </button>
+        </div>
+      </header>
+
+      <section class="stage" id="stage" aria-label="AI emotion portrait">
+        <div class="pixel-window" aria-hidden="true">
+          <div class="grid-lines"></div>
+          <div class="pixel-grid" id="pixel-grid"></div>
+        </div>
+        <div class="portrait-frame" id="portrait-frame">
+          <img id="mood-image" src="/assets/mood-neutral.png" alt="AI expression: neutral" />
+          <div class="portrait-glint" aria-hidden="true"></div>
+        </div>
+        <span class="pixel-butterfly butterfly-one" aria-hidden="true"><i></i></span>
+        <span class="pixel-butterfly butterfly-two" aria-hidden="true"><i></i></span>
+        <span class="pixel-butterfly butterfly-three" aria-hidden="true"><i></i></span>
+        <span class="pixel-spark spark-one" aria-hidden="true"></span>
+        <span class="pixel-spark spark-two" aria-hidden="true"></span>
+        <span class="pixel-spark spark-three" aria-hidden="true"></span>
+        <div class="mood-strip" aria-live="polite">
+          <span class="pulse-dot" aria-hidden="true"></span>
+          <span id="mood-label">NEUTRAL</span>
+          <span class="mood-separator">/</span>
+          <span id="state-label">READY</span>
+        </div>
+      </section>
+
+      <section class="chat-panel" aria-label="Conversation">
+        <div class="messages" id="messages" aria-live="polite" aria-relevant="additions text">
+          <article class="message assistant-message intro-message" id="intro-message">
+            <span class="message-sigil" aria-hidden="true">✦</span>
+            <p data-i18n="intro">Hello. I am here. What is on your mind?</p>
+          </article>
+        </div>
+        <form class="composer" id="composer">
+          <label class="sr-only" for="prompt" data-i18n="promptLabel">Message</label>
+          <textarea id="prompt" rows="1" maxlength="4000" data-i18n-placeholder="placeholder" placeholder="Type a message..." autocomplete="off"></textarea>
+          <button class="send-button" id="send-button" type="submit" aria-label="Send message">
+            <span class="send-glyph" aria-hidden="true">↗</span>
+            <span class="sr-only" data-i18n="send">Send</span>
+          </button>
+          <button class="stop-button" id="stop-button" type="button" aria-label="Stop answer" hidden>
+            <span aria-hidden="true">■</span>
+            <span class="sr-only" data-i18n="stop">Stop</span>
+          </button>
+        </form>
+        <p class="hint" id="composer-hint" data-i18n="hint">Enter to send · Shift + Enter for a new line</p>
+      </section>
+    </main>
+
+    <dialog class="settings" id="settings-dialog" aria-labelledby="settings-title">
+      <form method="dialog" class="settings-card">
+        <header class="settings-header">
+          <div>
+            <p class="eyebrow" data-i18n="settingsEyebrow">PRIVATE PANEL</p>
+            <h1 id="settings-title" data-i18n="settingsTitle">Settings</h1>
+          </div>
+          <button class="close-button" value="cancel" aria-label="Close settings">×</button>
+        </header>
+
+        <section class="settings-section language-section">
+          <div class="settings-line">
+            <div>
+              <h2 data-i18n="languageTitle">Language</h2>
+              <p data-i18n="languageCopy">Switch the entire chat between English and Arabic.</p>
+            </div>
+            <button class="pixel-button language-button" id="language-toggle" type="button" aria-label="Switch language">ع</button>
+          </div>
+        </section>
+
+        <section class="settings-section connection-section">
+          <div class="settings-line">
+            <div>
+              <h2 data-i18n="connectionTitle">AI connection</h2>
+              <p id="connection-status" data-i18n="connectionChecking">Checking local AI connection...</p>
+            </div>
+            <span class="connection-light" id="connection-light" aria-hidden="true"></span>
+          </div>
+          <div class="key-form" id="key-form" hidden>
+            <label class="sr-only" for="api-key-input">Groq API key</label>
+            <input id="api-key-input" type="password" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="gsk_..." />
+            <button class="save-key-button" id="save-key-button" type="button" data-i18n="saveKey">Save key</button>
+          </div>
+        </section>
+
+        <section class="settings-section">
+          <div class="settings-line">
+            <div>
+              <h2 data-i18n="soundTitle">RPG text sound</h2>
+              <p data-i18n="soundCopy">Soft pixel blips while an answer appears. No spoken voice.</p>
+            </div>
+            <label class="toggle"><input id="sound-toggle" type="checkbox" checked /><span></span></label>
+          </div>
+          <div class="theme-row" aria-label="Color theme">
+            <span data-i18n="theme">Color</span>
+            <button class="swatch active" data-theme="mono" type="button" aria-label="Black and white theme"></button>
+            <button class="swatch amber" data-theme="amber" type="button" aria-label="Amber theme"></button>
+            <button class="swatch mint" data-theme="mint" type="button" aria-label="Mint theme"></button>
+          </div>
+        </section>
+
+        <section class="settings-section inventory-section">
+          <div class="inventory-heading">
+            <div>
+              <h2 data-i18n="inventoryTitle">Mood inventory</h2>
+              <p data-i18n="inventoryCopy">Your images become feelings the AI can choose.</p>
+            </div>
+            <label class="upload-control" for="mood-upload">
+              <span aria-hidden="true">+</span> <span data-i18n="addImage">Add image</span>
+              <input id="mood-upload" type="file" accept="image/png,image/jpeg,image/webp,image/gif" multiple hidden />
+            </label>
+          </div>
+          <div class="mood-inventory" id="mood-inventory"></div>
+          <p class="tiny-note" data-i18n="inventoryNote">Select any image to pin it now. Remove custom images with the × button.</p>
+        </section>
+
+        <section class="settings-section api-note">
+          <span class="lock-glyph" aria-hidden="true">▣</span>
+          <p data-i18n="apiNote">Your API key stays on the local server and is never sent to this page.</p>
+        </section>
+      </form>
+    </dialog>
+
+    <template id="message-template">
+      <article class="message">
+        <span class="message-sigil" aria-hidden="true"></span>
+        <p></p>
+      </article>
+    </template>
+    <script type="module" src="/app.js"></script>
+  </body>
+</html>
